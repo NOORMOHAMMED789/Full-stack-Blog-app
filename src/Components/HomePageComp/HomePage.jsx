@@ -13,7 +13,7 @@ const HomePage = () => {
             <li>Create</li>
           </Link>
           <Link to="/">
-            <li>Create</li>
+            <li>Logout</li>
           </Link>
         </ul>
       </div>
