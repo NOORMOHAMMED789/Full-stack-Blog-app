@@ -12,7 +12,9 @@ const HomePage = () => {
           <Link to="/createpage">
             <li>Create</li>
           </Link>
-          <li>Logout</li>
+          <Link to="/">
+            <li>Create</li>
+          </Link>
         </ul>
       </div>
 
