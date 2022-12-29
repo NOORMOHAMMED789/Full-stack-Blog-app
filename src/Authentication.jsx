@@ -1,6 +1,6 @@
 function getToken(name) {
   if (window.localStorage) {
-    localStorage.getItem(name);
+    return localStorage.getItem(name);
   }
   return "";
 }

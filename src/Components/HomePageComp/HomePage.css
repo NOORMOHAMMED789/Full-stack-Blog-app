@@ -19,7 +19,7 @@ body {
 .home__navlist {
   display: flex;
   flex-direction: row;
-  gap: 3vw;
+  gap: 1vw;
   margin-left: 71%;
   margin-top: -5vh;
   justify-content: center;
@@ -29,4 +29,12 @@ body {
 
 .home__navlist li {
   list-style: none;
+}
+
+.useremail {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-image: url("./profile.png");
+  background-color: blue;
 }

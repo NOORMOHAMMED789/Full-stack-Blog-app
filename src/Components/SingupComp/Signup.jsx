@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import "./Singup.css";
-import { Link } from "react-router-dom";
 
 const URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
 const Signup = () => {
-  const [data, setData] = useState({
+  const [userData, setUserData] = useState({
     email: "",
     password: "",
     confirmPassword: "",
@@ -15,7 +14,7 @@ const Signup = () => {
   const [cpasserrorMsg, setcPassErrorMsg] = useState("");
 
   const emailChangeHandler = (e) => {
-    setData({ ...data, email: e.target.value });
+    setUserData({ ...userData, email: e.target.value });
     if (
       !e.target.value.match(/[^a-zA-Z0-9]/) ||
       !e.target.value.includes("@") ||
@@ -28,7 +27,7 @@ const Signup = () => {
   };
 
   const passChangeHandler = (e) => {
-    setData({ ...data, password: e.target.value });
+    setUserData({ ...userData, password: e.target.value });
     if (e.target.value.length < 8 || !e.target.value.match(/[^0-9]/)) {
       setPassErrorMsg(
         "Must be 8 or character and atleast contians 1number and 1 special character"
@@ -39,11 +38,8 @@ const Signup = () => {
   };
 
   const cpassChangeHandler = (e) => {
-    setData({ ...data, confirmPassword: e.target.value });
-    const { password, confirmPassword } = data;
-    console.log(password);
-    console.log(confirmPassword);
-
+    setUserData({ ...userData, confirmPassword: e.target.value });
+    const { password, confirmPassword } = userData;
     if (e.target.value.length < 8 || !e.target.value.match(/[^0-9]/)) {
       setcPassErrorMsg(
         "Must be 8 or character and atleast contians 1number and 1 special character"
@@ -60,9 +56,10 @@ const Signup = () => {
     setPassErrorMsg("");
     setcPassErrorMsg("");
   };
-  const submitHandler = (e) => {
+  const submitHandler1 = (e) => {
     e.preventDefault();
-    const { email, password, confirmPassword } = data;
+    const { email, password, confirmPassword } = userData;
+
     fetch(`${URL}/api/v1/user/register`, {
       method: "POST",
       body: JSON.stringify({
@@ -70,27 +67,28 @@ const Signup = () => {
         password: password,
         confirmPassword: confirmPassword,
       }),
-      header: {
+      headers: {
         "Content-Type": "application/json",
       },
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if (data.status === "Account already exists") {
+        if (data.message === "Account already exists") {
+          alert("User Already Exists.Please, Login !!!");
         } else {
-          alert("Registration successfull");
+          alert("Registration Successful");
         }
       })
-      .catch((err) => {
-        alert(err.message);
+      .catch((e) => {
+        alert(e.message);
       });
   };
   return (
     <div className="container1">
       <div className="login_title">SINGUP</div>
 
-      <form className="login-body" onSubmit={submitHandler}>
+      <form className="login-body" onSubmit={submitHandler1}>
         <label htmlFor="email" className="label">
           Email
         </label>
@@ -129,9 +127,7 @@ const Signup = () => {
         />
         <div className="passerror error">{cpasserrorMsg}</div>
 
-        <Link to="/homepage">
-          <button className="login-btn1">SINGUP</button>
-        </Link>
+        <button className="login-btn1">SINGUP</button>
       </form>
     </div>
   );

@@ -1,8 +1,12 @@
 import React from "react";
 import "./HomePage.css";
 import { Link } from "react-router-dom";
+import { getToken } from "../../Authentication";
 
 const HomePage = () => {
+  const logoutHandler = () => {
+    localStorage.clear();
+  };
   return (
     <div>
       <div className="home_header">
@@ -12,8 +16,10 @@ const HomePage = () => {
           <Link to="/createpage">
             <li>Create</li>
           </Link>
+          <span className="useremail"></span>
+          {getToken("Useremail")}
           <Link to="/">
-            <li>Logout</li>
+            <li onClick={logoutHandler}>Logout</li>
           </Link>
         </ul>
       </div>

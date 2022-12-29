@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
 import { getToken, setToken } from "../../Authentication";
+import { useNavigate } from "react-router-dom";
 
 const URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
 const Login = () => {
-  const [data, setData] = useState({
-    email: "",
-    password: "",
+  const navigate = useNavigate();
+  const [data1, setData1] = useState({
+    email1: "",
+    password1: "",
   });
   const [errorMsg, setErrorMsg] = useState("");
   const [passerrorMsg, setPassErrorMsg] = useState("");
   const [message, setMessage] = useState("");
 
   const emailChangeHandler = (e) => {
-    setData({ ...data, email: e.target.value });
+    setData1({ ...data1, email1: e.target.value });
     if (
       !e.target.value.match(/[^a-zA-Z0-9]/) ||
       !e.target.value.includes("@") ||
@@ -28,7 +29,7 @@ const Login = () => {
   };
 
   const passChangeHandler = (e) => {
-    setData({ ...data, password: e.target.value });
+    setData1({ ...data1, password1: e.target.value });
     if (e.target.value.length < 8 || !e.target.value.match(/[^0-9]/)) {
       setPassErrorMsg(
         "Must be 8 or character and atleast contians 1number and 1 special character"
@@ -45,33 +46,38 @@ const Login = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const { email, password } = data;
+    const { email1, password1 } = data1;
     fetch(`${URL}/api/v1/user/login`, {
       method: "POST",
       body: JSON.stringify({
-        email: email,
-        password: password,
+        email: email1,
+        password: password1,
       }),
-      header: {
+      headers: {
         "Content-Type": "application/json",
       },
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        console.log("reached here");
+
         if (data.status === "Failed") {
           setMessage(data.message);
         } else {
           const token = data.token;
           setToken("token", token);
           if (token === getToken("token")) {
-            setToken("Invalid User");
+            console.log(token);
+            console.log(data.email.split("@")[0]);
+            setToken("Useremail", data.email.split("@")[0]);
+            navigate("/HomePage");
           }
-          <Link to="/"></Link>;
         }
       })
-      .catch((err) => {
-        setMessage("server down, try after sometime");
+      .catch((e) => {
+        console.log(e);
+        setMessage("Server down. try after sometime !!");
       });
   };
   return (
@@ -112,9 +118,14 @@ const Login = () => {
 
         <div className="login-footer">
           Need an account ?{" "}
-          <Link to="/signup">
-            <button className="singup-btn">SIGNUP</button>
-          </Link>
+          <button
+            className="singup-btn"
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
+            SIGNUP
+          </button>
         </div>
       </form>
     </div>
