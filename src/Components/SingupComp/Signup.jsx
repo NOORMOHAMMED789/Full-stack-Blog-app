@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Singup.css";
 import { Link } from "react-router-dom";
 
-const URL = process.env.REACT_APP_API_URL || "http://localhost:3000";
+const URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
 const Signup = () => {
   const [data, setData] = useState({
@@ -63,7 +63,7 @@ const Signup = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     const { email, password, confirmPassword } = data;
-    fetch(`${URL}`, {
+    fetch(`${URL}/api/v1/user/register`, {
       method: "POST",
       body: JSON.stringify({
         email: email,

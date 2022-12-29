@@ -3,7 +3,7 @@ import "./Login.css";
 import { Link } from "react-router-dom";
 import { getToken, setToken } from "../../Authentication";
 
-const URL = process.env.REACT_APP_API_URL || "http://localhost:3000";
+const URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
 const Login = () => {
   const [data, setData] = useState({
@@ -46,7 +46,7 @@ const Login = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     const { email, password } = data;
-    fetch(`${URL}`, {
+    fetch(`${URL}/api/v1/user/login`, {
       method: "POST",
       body: JSON.stringify({
         email: email,
