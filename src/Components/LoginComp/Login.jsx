@@ -14,6 +14,7 @@ const Login = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [passerrorMsg, setPassErrorMsg] = useState("");
   const [message, setMessage] = useState("");
+  const [disabled, setDisabled] = useState(true);
 
   const emailChangeHandler = (e) => {
     setData1({ ...data1, email1: e.target.value });
@@ -23,6 +24,7 @@ const Login = () => {
       !e.target.value.endsWith(".com")
     ) {
       setErrorMsg("Please enter a valid email");
+      setDisabled(false);
     } else {
       setErrorMsg("");
     }
@@ -112,7 +114,9 @@ const Login = () => {
         <input type="checkbox" className="checkbox" />
         <span className="remember">Remember me ?</span>
 
-        <button className="login-btn">LOGIN</button>
+        <button className="login-btn" disabled={disabled}>
+          LOGIN
+        </button>
         <span className="forgot">Forgot Password ?</span>
         <div className="passerror">{message}</div>
 

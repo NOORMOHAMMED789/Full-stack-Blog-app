@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./Singup.css";
-
+import { useNavigate } from "react-router-dom";
 const URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -76,8 +77,10 @@ const Signup = () => {
         console.log(data);
         if (data.message === "Account already exists") {
           alert("User Already Exists.Please, Login !!!");
+          navigate("/");
         } else {
           alert("Registration Successful");
+          navigate("/");
         }
       })
       .catch((e) => {
